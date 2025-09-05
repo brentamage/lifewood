@@ -45,6 +45,7 @@ function Header() {
         <a href="/about" style={{ color: "#166534", fontWeight: "600", textDecoration: "none" }}>
           About
         </a>
+        {/* The 'Apply' button was previously here */}
       </nav>
 
       {/* Auth Buttons */}

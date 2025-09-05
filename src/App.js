@@ -31,9 +31,7 @@ function App() {
           <Link to="/about" className="hover:underline">
             About
           </Link>
-          <Link to="/apply" className="hover:underline">
-            Apply
-          </Link>
+          
           <Link to="/admin-login" className="hover:underline">
             Admin Login
           </Link>

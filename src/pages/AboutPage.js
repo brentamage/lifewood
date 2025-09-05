@@ -2,53 +2,52 @@ import React from 'react';
 
 function AboutPage() {
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-8 relative"
-      style={{
-        backgroundImage: `linear-gradient(rgba(245, 238, 219, 0.85), rgba(245, 238, 219, 0.85)), url('/path-to-your-background-image.jpg')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
-      <div
-        className="max-w-4xl bg-white bg-opacity-90 rounded-3xl border border-[#e6dcc6] p-14 shadow-2xl backdrop-blur-sm transform transition-transform duration-500 hover:scale-[1.02]"
-        style={{ boxShadow: '0 20px 40px rgba(19, 48, 32, 0.15)' }}
-      >
-        <h1 className="text-5xl font-extrabold text-[#133020] mb-10 text-center tracking-wider relative inline-block">
-          About Lifewood
-          <span className="block w-20 h-1 mx-auto mt-4 rounded-full bg-[#FFB347] shadow-lg animate-underline"></span>
-        </h1>
-        <p className="text-[#133020] text-xl leading-relaxed mb-8 font-medium tracking-wide">
-          Lifewood Data Technology is a global leader in data-driven innovation. We harness the power of AI to transform industries and create a better tomorrow. Our mission is to provide cutting-edge solutions that empower businesses to unlock the true potential of their data.
-        </p>
-        <p className="text-[#133020] text-xl leading-relaxed font-medium tracking-wide">
-          Founded by a team of data scientists and engineers, Lifewood is committed to ethical AI, continuous research, and exceptional project delivery.
-        </p>
-      </div>
+    <div className="bg-[#EFEAE3] min-h-screen">
+      {/* Innovation Section */}
+      <section className="bg-#f5eedb text-[#133020] text-center p-16">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-5xl font-extrabold mb-8">Innovation</h2>
+          <p className="text-lg leading-relaxed mb-6 font-medium">
+            At Lifewood, we believe in the transformative power of data. Our mission is to build intelligent systems that not only drive business efficiency but also create meaningful, positive change in society. We tackle complex challenges by blending cutting-edge research with practical, scalable applications.
+          </p>
+          <p className="text-lg leading-relaxed font-medium">
+            Our team of world-class engineers, data scientists, and visionaries collaborates in an environment of deep curiosity and continuous learning. We are committed to ethical AI, ensuring our solutions are fair, transparent, and aligned with human values.
+          </p>
+        </div>
+      </section>
 
-      <style>
-        {`
-          @keyframes underline {
-            0% {
-              width: 0;
-              opacity: 0;
-            }
-            50% {
-              width: 20rem;
-              opacity: 1;
-            }
-            100% {
-              width: 5rem;
-              opacity: 1;
-            }
-          }
-
-          .animate-underline {
-            animation: underline 1.5s ease forwards;
-          }
-        `}
-      </style>
+      {/* Our Expertise Section */}
+      <section className="bg-[#F9F7F7] text-[#133020] text-center p-16">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-5xl font-extrabold mb-8">Our Expertise</h2>
+          <p className="text-lg leading-relaxed mb-12 font-medium">
+            We specialize in turning complex data into actionable intelligence across various domains.
+          </p>
+          <div className="flex flex-col md:flex-row justify-center gap-8">
+            {/* Card 1: Machine Learning Solutions */}
+            <div className="flex-1 bg-white rounded-2xl shadow-lg p-8">
+              <h3 className="text-xl font-bold mb-4">Machine Learning Solutions</h3>
+              <p className="text-base text-gray-700">
+                From predictive analytics to computer vision, we develop custom machine learning models that automate processes, uncover hidden patterns, and provide a competitive edge.
+              </p>
+            </div>
+            {/* Card 2: Data Strategy & Analytics */}
+            <div className="flex-1 bg-white rounded-2xl shadow-lg p-8">
+              <h3 className="text-xl font-bold mb-4">Data Strategy & Analytics</h3>
+              <p className="text-base text-gray-700">
+                We help businesses build a robust data foundation. Our services include data warehousing, business intelligence, and real-time dashboards to ensure you make informed decisions.
+              </p>
+            </div>
+            {/* Card 3: Natural Language Processing */}
+            <div className="flex-1 bg-white rounded-2xl shadow-lg p-8">
+              <h3 className="text-xl font-bold mb-4">Natural Language Processing</h3>
+              <p className="text-base text-gray-700">
+                Unlock insights from text and speech. Our NLP services include sentiment analysis, chatbots, and text summarization to help you understand your customers and streamline communication.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
