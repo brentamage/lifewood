@@ -78,6 +78,59 @@ router.put('/:id/accept', async (req, res) => {
   }
 });
 
+// PUT /api/applications/:id/decline - Decline an application
+router.put('/:id/decline', async (req, res) => {
+  try {
+    const application = await Application.findById(req.params.id);
+    if (!application) {
+      return res.status(404).json({ error: 'Application not found' });
+    }
+
+    application.status = 'DECLINED';
+    await application.save();
+
+    // Send a decline email to the applicant
+    const subject = 'Application Status Update';
+    const message = `Hi ${application.fullName},\n\nThank you for your interest. We regret to inform you that your application for "${application.projectName}" has not been accepted at this time.\n\nWe wish you the best in your future endeavors.\n\nBest regards,\nYour Team`;
+
+    await sendEmail(application.email, subject, message);
+
+    res.json(application);
+  } catch (error) {
+    console.error('❌ Error declining application:', error.message);
+    res.status(500).json({ error: 'Failed to decline application' });
+  }
+});
+
+// PUT /api/applications/:id - Update an application
+router.put('/:id', async (req, res) => {
+  try {
+    const { fullName, age, degree, experience, email, projectName, status } = req.body;
+
+    const updatedApp = await Application.findByIdAndUpdate(
+      req.params.id, {
+        fullName,
+        age,
+        degree,
+        experience,
+        email,
+        projectName,
+        status, // Ensure status is included in the update
+      }, { new: true } // return updated document
+    );
+
+    if (!updatedApp) {
+      return res.status(404).json({ error: 'Application not found' });
+    }
+
+    res.json(updatedApp);
+  } catch (error) {
+    console.error('❌ Error updating application:', error.message);
+    res.status(500).json({ error: 'Failed to update application' });
+  }
+});
+
+
 // DELETE /api/applications/:id - Delete an application
 router.delete('/:id', async (req, res) => {
   try {
