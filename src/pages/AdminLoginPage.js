@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const AdminLoginPage = ({ setIsAdminLoggedIn }) => {
   const [credentials, setCredentials] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
-  const [showModal, setShowModal] = useState(false); // ✅ modal state
+  const [showModal, setShowModal] = useState(false); // modal visibility
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -15,12 +15,13 @@ const AdminLoginPage = ({ setIsAdminLoggedIn }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Simple hardcoded auth
     if (credentials.username === "admin" && credentials.password === "password") {
       setError("");
       setIsAdminLoggedIn(true);
       localStorage.setItem("adminToken", "loggedIn");
 
-      // ✅ Show modal
+      // Show success modal
       setShowModal(true);
     } else {
       setError("Invalid username or password");
@@ -35,7 +36,7 @@ const AdminLoginPage = ({ setIsAdminLoggedIn }) => {
         background: "linear-gradient(135deg, #f5eedb 0%, #d7d0b9 100%)",
       }}
     >
-      {/* ✅ Success Modal */}
+      {/* Success Modal */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
           <div className="bg-white rounded-2xl shadow-2xl p-8 text-center max-w-sm w-full">
@@ -46,7 +47,7 @@ const AdminLoginPage = ({ setIsAdminLoggedIn }) => {
             <button
               onClick={() => {
                 setShowModal(false);
-                navigate("/admin-dashboard"); // 👈 navigate only after modal dismiss
+                navigate("/admin-dashboard"); // navigate after modal
               }}
               className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
             >
