@@ -12,11 +12,13 @@ const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
+  const API_URL = import.meta.env.VITE_API_URL; // <-- environment variable
+
   useEffect(() => {
     const fetchApplications = async () => {
       setLoading(true);
       try {
-        const res = await fetch('http://localhost:5000/api/applications');
+        const res = await fetch(`${API_URL}/api/applications`);
         if (!res.ok) throw new Error('Failed to fetch applications');
         const data = await res.json();
         setApplications(data);
@@ -28,7 +30,7 @@ const AdminDashboard = () => {
     };
 
     fetchApplications();
-  }, []);
+  }, [API_URL]);
 
   const handleChange = (e) => {
     setEditData({ ...editData, [e.target.name]: e.target.value });
@@ -52,7 +54,7 @@ const AdminDashboard = () => {
 
     setIsSaving(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/applications/${id}`, {
+      const res = await fetch(`${API_URL}/api/applications/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editData),
@@ -76,7 +78,7 @@ const AdminDashboard = () => {
 
   const handleAccept = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/applications/${id}/accept`, {
+      const res = await fetch(`${API_URL}/api/applications/${id}/accept`, {
         method: 'PUT',
       });
       if (!res.ok) throw new Error();
@@ -95,7 +97,7 @@ const AdminDashboard = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this application?')) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/applications/${id}`, {
+      const res = await fetch(`${API_URL}/api/applications/${id}`, {
         method: 'DELETE',
       });
       if (!res.ok) throw new Error();
