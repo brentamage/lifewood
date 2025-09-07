@@ -8,6 +8,9 @@ const AdminDashboard = () => {
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({});
   const [isSaving, setIsSaving] = useState(false);
+  const [filterStatus, setFilterStatus] = useState('ALL');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -114,6 +117,33 @@ const AdminDashboard = () => {
     />
   );
 
+  const handleSort = (key) => {
+    setSortConfig((prev) => {
+      if (prev.key === key) {
+        return { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
+      }
+      return { key, direction: 'asc' };
+    });
+  };
+
+  const filteredApplications = applications
+    .filter((app) =>
+      filterStatus === 'ALL' ? true : (app.status || 'PENDING') === filterStatus
+    )
+    .filter((app) =>
+      app.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      app.email.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (!sortConfig.key) return 0;
+      const aValue = a[sortConfig.key];
+      const bValue = b[sortConfig.key];
+
+      if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+
   if (loading) return <div className="p-6 text-center">Loading applications...</div>;
 
   return (
@@ -121,25 +151,55 @@ const AdminDashboard = () => {
       <ToastContainer position="top-center" autoClose={3000} />
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard - Applications</h1>
 
-      {applications.length === 0 ? (
+      {/* Filter & Search */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="space-x-2">
+          <label>Status:</label>
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="border px-2 py-1 rounded"
+          >
+            <option value="ALL">All</option>
+            <option value="PENDING">Pending</option>
+            <option value="ACCEPTED">Accepted</option>
+            <option value="DECLINED">Declined</option>
+          </select>
+        </div>
+
+        <input
+          type="text"
+          placeholder="Search by name or email"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="border px-2 py-1 rounded w-64"
+        />
+      </div>
+
+      {filteredApplications.length === 0 ? (
         <div>No applications found.</div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full border-collapse border border-gray-300 text-sm">
             <thead className="bg-gray-100">
               <tr>
-                <th className="p-2 border">Full Name</th>
-                <th className="p-2 border">Age</th>
-                <th className="p-2 border">Degree</th>
-                <th className="p-2 border">Experience</th>
-                <th className="p-2 border">Email</th>
-                <th className="p-2 border">Project Name</th>
+                {['fullName', 'age', 'degree', 'experience', 'email', 'projectName'].map((field) => (
+                  <th
+                    key={field}
+                    className="p-2 border cursor-pointer"
+                    onClick={() => handleSort(field)}
+                  >
+                    {field.charAt(0).toUpperCase() + field.slice(1)}{' '}
+                    {sortConfig.key === field &&
+                      (sortConfig.direction === 'asc' ? '▲' : '▼')}
+                  </th>
+                ))}
                 <th className="p-2 border">Status</th>
                 <th className="p-2 border">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {applications.map((app) => (
+              {filteredApplications.map((app) => (
                 <tr key={app._id} className="hover:bg-gray-50">
                   {['fullName', 'age', 'degree', 'experience', 'email', 'projectName'].map((field) => (
                     <td key={field} className="p-2 border">
