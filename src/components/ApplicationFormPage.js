@@ -36,7 +36,8 @@ function ApplicationFormPage() {
   const selectedProject = projects.find(p => p._id === formData.projectId);
 
   try {
-    const response = await fetch('http://localhost:5000/api/applications', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/applications`, {
+
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
