@@ -12,7 +12,7 @@ const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
-  const API_URL = import.meta.env.VITE_API_URL; // <-- environment variable
+  const API_URL = import.meta.env.API_URL; // <-- environment variable
 
   useEffect(() => {
     const fetchApplications = async () => {
